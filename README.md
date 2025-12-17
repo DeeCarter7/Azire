@@ -131,8 +131,7 @@ The domain was detected and auto-populated the credentials. On the next page, th
 
 ## Test OUs and Test Users
 I created serveral Organizational Units (OUs) and a test user and ITAdmin.
-
-![OUs and Test User](OUsandTestUserDC01.png)
+![OUs and Test User](images/OUsandTestUserDC01.png)
 
 ## Tools & Technologies
 - Microsoft Azure
