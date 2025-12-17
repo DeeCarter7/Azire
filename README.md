@@ -36,8 +36,8 @@ Virtual Network & Subnet
 ![Virtual Network & Subnet](images/VirtualNetwork.png)
 
 Virtual Machines (DC01 & DC02)
-![Virtual Machines DC01](images/DC01VMOverview.png)
-![Virtual Machines DC02](images/DC02VMOverview.png)
+![Virtual Machines DC01](images/DC01_VM_Overview.png)
+![Virtual Machines DC02](images/DC02_VM_Overview.png)
 
 ## Domain Controller 1 (DC01) Setup
 1. Virtual Machine Deployment
@@ -66,9 +66,80 @@ This establishes the identity authority for the environment.
    - Static private IP assigned
 
 2. DNS Configuration (Critical Step)
-   DC02 initially could not detect the domain. 
+DC02 initially could not detect the domain.
+Fix:
 
+Force DC01 to use DC01 for DNS, then joined the domain (corp.local) first, and then promoted
 
+STEP 1: Fix DNS on DC02
+
+Inside DC02 VM (not Azure Portal):
+
+1. Press Windows + Run (Open Run)
+2. Type ncpa.cpl
+3. Right-click Ethernet
+4. Click Properties
+5. Double-Click Internet Protocol Version 4 (IPv4)
+6. Set:
+ - Preferred DNS Server > DC01 Private IP
+ - Alternate DNS > (Leave Blank)
+
+Click OK > Close
+
+STEP 2: Restart DC02
+
+Restart the VM.
+
+DNS Changes will not fully apply until reboot
+
+STEP 3: Join DC02 to the Domain first
+
+I found that after updating the DNS, successfully pinging both DC01 and corp.local multiple times, and multiple failed attempts to promote DC02, this was the step that was missing.
+
+On DC02: 
+
+1. Open Server Manager
+2. Click Local Server
+3. Click the Computer Name
+4. Click Change
+5. Select Domain
+6. Type: Corp.Local
+7. When prompted for credentials, use DC01's credentials.
+8. Restart when prompted
+
+STEP 4: Promote DC02 to Domain Controller (Success)
+
+After reboot:
+
+1. Login as DC01 (DC01 Credentials)
+2. Open Server Manager
+3. Access AD DS on Dashboard
+4. Click Promote this server to a domain controller
+5: Select: Add a domain controller to an existing domain
+6: Domain: corp.local
+
+The domain was detected and auto-populated the credentials. On the next page, the sites list loaded ( I was also having an issue with that).
+
+Currently still looking into root cause. Will update once I understand what happened. 
+
+## Test OUS and Test Users
+I created serveral Organizational Units (OUs) and a test user and ITAdmin.
+![OUs and Test User](OUsandTestUser.png)
+
+## Tools & Technologies
+- Microsoft Azure
+- Windows Server
+- Active Directory Doamin Services (AD DS)
+- DNS
+- Azure Virtual Networking
+- Powershell/Terminal
+
+## Future Enhancements
+- Add a domain-joined Windows Client
+- Enabled advanced auditing
+- Forward logs to a SIEM
+- Simulate authentication attacks
+  
 ## Key Skills Demonstrated
 - Active Directory administration
 - Azure VM and networking configuration
@@ -77,7 +148,7 @@ This establishes the identity authority for the environment.
 - Enterprise identity fundamentals
 
 ## Why This Lab Matters
-Active Directory is a critical component of enterprise environments and a frequent target during cyber attacks. Understanding how AD is built, replicated, and managed is essential for SOC analysts, blue team members, and IT professionals.
+Active Directory is a critical component of enterprise environments and a frequent target during cyber attacks. Understanding how AD is built, replicated, and managed is essential for SOC analysts, blue team members, and IT professionals. It documents not just what was built, but how challenges were identified and resolved, reflecting real-world troubleshooting and learning. 
 
 ## Documentation
 See **Azure_Active_Directory_Lab.pdf** for a full step-by-step breakdown of what was built and why. 
