@@ -36,7 +36,7 @@ Virtual Network & Subnet
 ![Virtual Network & Subnet](images/VirtualNetwork.png)
 
 Virtual Machines (DC01 & DC02)
-![Virtual Machines DC01](images/DC01 VM Overview.png)
+![Virtual Machines DC01](images/DC01VMOverview.png)
 ![Virtual Machines DC02](images/DC02 VM Overview.png)
 
 ## Domain Controller 1 (DC01) Setup
