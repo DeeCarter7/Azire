@@ -26,7 +26,7 @@ The purpose of this lab was to:
 - AD DS with DNS and Global Catalog enabled
 - Multi–Availability Zone deployment
 
-  This setup mirrors how enterprise envirnments ensure availability and resilience for identity services
+****This setup mirrors how enterprise envirnments ensure availability and resilience for identity services****
 
 ## Architecture & Azure Resources
 Azure Resource Group
@@ -36,8 +36,8 @@ Virtual Network & Subnet
 ![Virtual Network & Subnet](images/VirtualNetwork.png)
 
 Virtual Machines (DC01 & DC02)
-![Virtual Machines DC01](images/DC01_VM_Overview.png)
-![Virtual Machines DC02](images/DC02_VM_Overview.png)
+![Virtual Machines DC01](images/DC01 VM Overview.png)
+![Virtual Machines DC02](images/DC02 VM Overview.png)
 
 ## Domain Controller 1 (DC01) Setup
 1. Virtual Machine Deployment
