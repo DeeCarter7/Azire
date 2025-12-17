@@ -158,4 +158,8 @@ I created serveral Organizational Units (OUs) and a test user and ITAdmin.
 Active Directory is a critical component of enterprise environments and a frequent target during cyber attacks. Understanding how AD is built, replicated, and managed is essential for SOC analysts, blue team members, and IT professionals. It documents not just what was built, but how challenges were identified and resolved, reflecting real-world troubleshooting and learning. 
 
 ## Documentation
-See **Azure_Active_Directory_Lab.pdf** for a full step-by-step breakdown of what was built and why. 
+See **Azure_Active_Directory_Lab.pdf** for a full step-by-step breakdown of what was built and why.
+
+❤️ Author: Diamond Carter
+📌 Wilmington, DE
+🔐 Aspiring SOC Analyst | IT Support | Cybersecurity
