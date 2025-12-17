@@ -37,15 +37,15 @@ Virtual Network & Subnet
 
 Virtual Machines (DC01 & DC02)
 ![Virtual Machines DC01](images/DC01VMOverview.png)
-![Virtual Machines DC02](images/DC02 VM Overview.png)
+![Virtual Machines DC02](images/DC02VMOverview.png)
 
 ## Domain Controller 1 (DC01) Setup
 1. Virtual Machine Deployment
    - Deployed Windows Server VM named DC01
    - Assigned static private IP
    - Placed in Azure Virtual Network
-WHY:
-Domain Controllers require stable IP addresses for DNS and authentication services.
+     
+****WHY: Domain Controllers require stable IP addresses for DNS and authentication services.****
 
 2. Install Active Directory Domain Services (AD DS)
    - Installed AD DS role via Server Manager
@@ -55,9 +55,9 @@ Domain Controllers require stable IP addresses for DNS and authentication servic
    - Created new forest: corp.local
    - Installed DNS Server role
    - Enabled Global Catalog
-   - Set DSRM password  
-WHY:
-This establishes the identity authority for the environment.
+   - Set DSRM password
+
+****WHY: This establishes the identity authority for the environment.****
 
 ## Domain Controller 2 (DC02) Setup
 1. Virtual Machine Deployment
@@ -66,63 +66,70 @@ This establishes the identity authority for the environment.
    - Static private IP assigned
 
 2. DNS Configuration (Critical Step)
-DC02 initially could not detect the domain.
-Fix:
+   
+DC02 initially could not detect the domain (corp.local). I received a error that stated that a connection could not be established.
 
-Force DC01 to use DC01 for DNS, then joined the domain (corp.local) first, and then promoted
-
-STEP 1: Fix DNS on DC02
+****Fix:****
+- Force DC02 to use DC01 for DNS
+- Join the domain (corp.local) first
+- Promote to a Domain Controller
+-------------------------------------------------------------------------
+****STEP 1: Fix DNS on DC02****
 
 Inside DC02 VM (not Azure Portal):
 
 1. Press Windows + Run (Open Run)
-2. Type ncpa.cpl
-3. Right-click Ethernet
-4. Click Properties
-5. Double-Click Internet Protocol Version 4 (IPv4)
+2. Type ****ncpa.cpl****
+3. Right-click ****Ethernet****
+4. Click ****Properties****
+5. Double-Click ****Internet Protocol Version 4 (IPv4)****
 6. Set:
- - Preferred DNS Server > DC01 Private IP
- - Alternate DNS > (Leave Blank)
+ - Preferred DNS Server > ****DC01 Private IP****
+ - Alternate DNS > ***(Leave Blank)***
 
 Click OK > Close
 
-STEP 2: Restart DC02
+----------------------------------------------------------------------------
+****STEP 2: Restart DC02****
 
-Restart the VM.
+****Restart the VM.****
 
 DNS Changes will not fully apply until reboot
 
-STEP 3: Join DC02 to the Domain first
+-----------------------------------------------------------------------------
+
+****STEP 3: Join DC02 to the Domain first****
 
 I found that after updating the DNS, successfully pinging both DC01 and corp.local multiple times, and multiple failed attempts to promote DC02, this was the step that was missing.
 
-On DC02: 
+****On DC02:****
 
-1. Open Server Manager
-2. Click Local Server
-3. Click the Computer Name
-4. Click Change
-5. Select Domain
-6. Type: Corp.Local
-7. When prompted for credentials, use DC01's credentials.
+1. Open ****Server Manager****
+2. Click ****Local Server****
+3. Click the ****Computer Name****
+4. Click ****Change****
+5. Select ****Domain****
+6. Type: ****Corp.Local****
+7. When prompted for credentials, ****use DC01's credentials.****
 8. Restart when prompted
+----------------------------------------------------------------------------------
 
-STEP 4: Promote DC02 to Domain Controller (Success)
+****STEP 4: Promote DC02 to Domain Controller (Success)****
 
-After reboot:
+****After reboot:****
 
 1. Login as DC01 (DC01 Credentials)
-2. Open Server Manager
+2. Open ****Server Manager****
 3. Access AD DS on Dashboard
-4. Click Promote this server to a domain controller
-5: Select: Add a domain controller to an existing domain
-6: Domain: corp.local
+4. Click ****Promote this server to a domain controller****
+5. Select: ****Add a domain controller to an existing domain****
+6. Domain: ****corp.local****
 
 The domain was detected and auto-populated the credentials. On the next page, the sites list loaded ( I was also having an issue with that).
 
-Currently still looking into root cause. Will update once I understand what happened. 
+****Successfully Promoted DC02**** 🥳
 
-## Test OUS and Test Users
+## Test OUs and Test Users
 I created serveral Organizational Units (OUs) and a test user and ITAdmin.
 ![OUs and Test User](OUsandTestUser.png)
 
